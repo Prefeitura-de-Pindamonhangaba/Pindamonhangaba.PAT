@@ -18,7 +18,10 @@ export function VacancyList({
   management = false,
 }: Props) {
   const path = management ? "/gestao" : "/";
-  function pageUrl(page: number) {
+  function pageUrl(
+    page: number,
+    action?: { nova: string } | { editar: string },
+  ) {
     return (
       path +
       "?" +
@@ -26,14 +29,26 @@ export function VacancyList({
         q: filters.q,
         status: filters.status,
         page: String(page),
+        ...action,
       })
     );
   }
   return (
     <section aria-labelledby="vagas-titulo">
-      <h2 id="vagas-titulo">
-        {management ? "Vagas cadastradas" : "Lista de vagas"}
-      </h2>
+      <div className="list-heading">
+        <h2 id="vagas-titulo">
+          {management ? "Vagas cadastradas" : "Lista de vagas"}
+        </h2>
+        {management && !unavailable && (
+          <Link
+            className="button"
+            scroll={false}
+            href={pageUrl(filters.page, { nova: "1" })}
+          >
+            Nova vaga
+          </Link>
+        )}
+      </div>
       <form className="filters" action={path}>
         <label>
           Buscar vaga
@@ -100,7 +115,9 @@ export function VacancyList({
                   {management && (
                     <td>
                       <Link
-                        href={"/gestao?editar=" + row.id + "#formulario"}
+                        className="button secondary"
+                        scroll={false}
+                        href={pageUrl(filters.page, { editar: row.id })}
                         aria-label={"Editar " + row.occupation}
                       >
                         Editar

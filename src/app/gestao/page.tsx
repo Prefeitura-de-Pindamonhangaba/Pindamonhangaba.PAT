@@ -3,7 +3,6 @@ import { redirect, notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { devAuthBypassEnabled, managementEnabled } from "@/shared/lib/env";
 import { managementPage } from "@/modules/vacancies/controllers/vacancy-controller";
-import { PublicationDate } from "@/modules/vacancies/views/publication-date";
 import { VacancyForm } from "@/modules/vacancies/views/vacancy-form";
 import { VacancyList } from "@/modules/vacancies/views/vacancy-list";
 import { removeVacancy, saveVacancy } from "./actions";
@@ -40,6 +39,11 @@ export default async function Management({
   }
   const query = await searchParams;
   const data = await managementPage(query);
+  const params = new URLSearchParams();
+  if (data.filters.q) params.set("q", data.filters.q);
+  if (data.filters.status !== "all") params.set("status", data.filters.status);
+  if (data.filters.page > 1) params.set("page", String(data.filters.page));
+  const listHref = params.size ? "/gestao?" + params : "/gestao";
   const result = query.resultado;
   const message =
     result === "salva"
@@ -67,21 +71,21 @@ export default async function Management({
           {message}
         </p>
       )}
-      <PublicationDate date={data.updatedAt} />
       {data.missing && (
         <p className="notice" role="alert">
-          Vaga não encontrada. <Link href="/gestao">Voltar à gestão</Link>
+          Vaga não encontrada. <Link href={listHref}>Voltar à gestão</Link>
         </p>
       )}
-      {!data.missing && (
+      <VacancyList {...data} management />
+      {!data.missing && (data.editing || query.nova === "1") && (
         <VacancyForm
           key={data.editing?.id ?? "new"}
           vacancy={data.editing}
+          closeHref={listHref}
           save={saveVacancy}
           remove={removeVacancy}
         />
       )}
-      <VacancyList {...data} management />
     </div>
   );
 }
