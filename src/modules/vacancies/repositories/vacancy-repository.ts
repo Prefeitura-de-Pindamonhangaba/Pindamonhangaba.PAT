@@ -65,10 +65,3 @@ export async function readPublicationDate() {
     .where(eq(publication.id, 1));
   return row?.updatedAt;
 }
-
-export async function updatePublicationDate(updatedAt: Date) {
-  await db()
-    .insert(publication)
-    .values({ id: 1, updatedAt })
-    .onConflictDoUpdate({ target: publication.id, set: { updatedAt } });
-}

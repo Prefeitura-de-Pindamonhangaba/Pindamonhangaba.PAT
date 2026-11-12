@@ -89,17 +89,4 @@ export async function remove(form: FormData) {
   redirect("/gestao?resultado=excluida");
 }
 
-export async function publish() {
-  const editor = await requireEditor();
-  try {
-    await service.updatePublicationDate(new Date());
-    console.info(
-      JSON.stringify({ event: "publication.updated", subject: editor.subject }),
-    );
-  } catch {
-    console.error("Falha ao atualizar a data da listagem.");
-    return "Não foi possível atualizar a data. Tente novamente.";
-  }
-  redirect("/gestao?resultado=publicada");
-}
 export const { readPublicationDate } = service;

@@ -1,6 +1,6 @@
 # Mapeamento do PAT em PHP
 
-A listagem do legado lia `vagas` em ordem de ocupação e consultava `config.Data_atualizacao` para exibir a data da lista. A edição usava a mesma tabela `vagas`. O novo projeto mantém a listagem pública e o controle explícito da data, que a equipe pode registrar com o horário atual.
+A listagem do legado lia `vagas` em ordem de ocupação e consultava `config.Data_atualizacao` para exibir a data da lista. A edição usava a mesma tabela `vagas`. O novo projeto mantém a listagem pública e atualiza a data automaticamente a cada inclusão, edição efetiva ou exclusão de vaga.
 
 | PHP/MySQL                             | Next.js/PostgreSQL                                    |
 | ------------------------------------- | ----------------------------------------------------- |

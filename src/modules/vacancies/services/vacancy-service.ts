@@ -1,12 +1,7 @@
 import * as repository from "../repositories/vacancy-repository";
 import type { VacancyFilters } from "../schemas/vacancy-input";
 
-export const {
-  findVacancy,
-  saveVacancy,
-  deleteVacancy,
-  updatePublicationDate,
-} = repository;
+export const { findVacancy, saveVacancy, deleteVacancy } = repository;
 
 export async function getVacancyPage(filters: VacancyFilters) {
   const pageSize = 20;

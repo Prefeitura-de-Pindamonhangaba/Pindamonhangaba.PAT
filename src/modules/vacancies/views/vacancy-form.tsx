@@ -106,23 +106,3 @@ export function VacancyForm({
     </section>
   );
 }
-
-export function PublicationForm({
-  publish,
-}: {
-  publish: () => Promise<string>;
-}) {
-  const [error, action, pending] = useActionState(publish, "");
-  return (
-    <form action={action}>
-      {error && (
-        <p className="notice" role="alert">
-          {error}
-        </p>
-      )}
-      <button className="secondary" disabled={pending}>
-        {pending ? "Atualizando…" : "Registrar atualização agora"}
-      </button>
-    </form>
-  );
-}

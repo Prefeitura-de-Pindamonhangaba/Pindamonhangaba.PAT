@@ -1,6 +1,6 @@
 # PAT Pindamonhangaba
 
-O Posto de Atendimento ao Trabalhador publica vagas de emprego para consulta sem cadastro. A equipe do PAT pode cadastrar, editar, sinalizar vagas preenchidas, excluir registros e atualizar a data exibida na lista pública.
+O Posto de Atendimento ao Trabalhador publica vagas de emprego para consulta sem cadastro. A equipe do PAT pode cadastrar, editar, sinalizar vagas preenchidas, e excluir registros. A data exibida na lista pública acompanha a última alteração das vagas.
 
 O projeto utiliza Next.js App Router, TypeScript strict, Bun, PostgreSQL, Drizzle ORM, Zod e Keycloak institucional. A organização segue MVC modular em `src/modules`, com roteamento em `src/app` e infraestrutura em `src/shared`.
 

@@ -4,12 +4,9 @@ import { cookies } from "next/headers";
 import { devAuthBypassEnabled, managementEnabled } from "@/shared/lib/env";
 import { managementPage } from "@/modules/vacancies/controllers/vacancy-controller";
 import { PublicationDate } from "@/modules/vacancies/views/publication-date";
-import {
-  PublicationForm,
-  VacancyForm,
-} from "@/modules/vacancies/views/vacancy-form";
+import { VacancyForm } from "@/modules/vacancies/views/vacancy-form";
 import { VacancyList } from "@/modules/vacancies/views/vacancy-list";
-import { publishVacancies, removeVacancy, saveVacancy } from "./actions";
+import { removeVacancy, saveVacancy } from "./actions";
 import { signOut } from "./auth-actions";
 import { currentEditor } from "@/modules/auth/controllers/auth-controller";
 
@@ -49,9 +46,7 @@ export default async function Management({
       ? "Vaga salva."
       : result === "excluida"
         ? "Vaga excluída."
-        : result === "publicada"
-          ? "Data de atualização registrada."
-          : "";
+        : "";
   return (
     <div className="container content">
       <div className="heading hero hero-inner">
@@ -72,11 +67,7 @@ export default async function Management({
           {message}
         </p>
       )}
-      <section className="panel">
-        <h2>Data da listagem pública</h2>
-        <PublicationDate date={data.updatedAt} />
-        <PublicationForm publish={publishVacancies} />
-      </section>
+      <PublicationDate date={data.updatedAt} />
       {data.missing && (
         <p className="notice" role="alert">
           Vaga não encontrada. <Link href="/gestao">Voltar à gestão</Link>
