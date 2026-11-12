@@ -1,0 +1,71 @@
+x-app: &app
+  build:
+    context: .
+    target: runtime
+    args:
+      NEXT_BUILD_CPUS: ${NEXT_BUILD_CPUS:-2}
+  restart: unless-stopped
+  ports:
+    - "${APP_BIND_ADDRESS:-127.0.0.1}:${APP_PORT:-3000}:3000"
+  env_file: .env
+  healthcheck:
+    test:
+      [
+        "CMD",
+        "bun",
+        "-e",
+        "const r = await fetch('http://127.0.0.1:3000/api/health'); if (!r.ok) process.exit(1)",
+      ]
+    interval: 20s
+    timeout: 8s
+    retries: 3
+    start_period: 20s
+
+x-dev-db: &dev-db
+  DATABASE_URL: postgres://${POSTGRES_USER:-pat}:${POSTGRES_PASSWORD:-}@postgres:5432/${POSTGRES_DB:-pat}
+
+x-migration: &migration
+  profiles: [maintenance]
+  build:
+    context: .
+    target: migration
+  env_file: .env
+
+services:
+  app-dev:
+    <<: *app
+    profiles: [development]
+    environment: *dev-db
+    depends_on:
+      postgres:
+        condition: service_healthy
+  app:
+    <<: *app
+    profiles: [production]
+    environment:
+      ALLOW_LOCAL_HTTP: "false"
+  migrate-dev:
+    <<: *migration
+    environment: *dev-db
+  migrate:
+    <<: *migration
+    environment:
+      ALLOW_LOCAL_HTTP: "false"
+  postgres:
+    image: postgres:17
+    profiles: [development]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pat}
+      POSTGRES_DB: ${POSTGRES_DB:-pat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
