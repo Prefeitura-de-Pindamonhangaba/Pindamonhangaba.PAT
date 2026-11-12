@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import { cookies } from "next/headers";
 import { devAuthBypassEnabled, managementEnabled } from "@/shared/lib/env";
 import { managementPage } from "@/modules/vacancies/controllers/vacancy-controller";
 import { VacancyForm } from "@/modules/vacancies/views/vacancy-form";
@@ -19,24 +18,7 @@ export default async function Management({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   if (!managementEnabled()) notFound();
-  if (!(await currentEditor())) {
-    if ((await cookies()).has("pat_session")) redirect("/auth/entrar");
-    return (
-      <div className="container content">
-        <section className="hero hero-inner">
-          <div>
-            <h1>Gestão de vagas</h1>
-            <p>
-              Entre com sua conta institucional para gerenciar as vagas do PAT.
-            </p>
-          </div>
-          <a className="button hero-action" href="/auth/entrar">
-            Entrar com Keycloak
-          </a>
-        </section>
-      </div>
-    );
-  }
+  if (!(await currentEditor())) redirect("/auth/entrar");
   const query = await searchParams;
   const data = await managementPage(query);
   const params = new URLSearchParams();

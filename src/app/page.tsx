@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { managementEnabled } from "@/shared/lib/env";
 import { publicVacancies } from "@/modules/vacancies/controllers/vacancy-controller";
 import { PublicationDate } from "@/modules/vacancies/views/publication-date";
@@ -27,9 +26,9 @@ export default async function Home({
             </p>
           </div>
           {enabled && (
-            <Link className="button hero-action" href="/gestao">
+            <a className="button hero-action" href="/gestao">
               Área de gestão
-            </Link>
+            </a>
           )}
         </section>
         {query.acesso === "indisponivel" && (
