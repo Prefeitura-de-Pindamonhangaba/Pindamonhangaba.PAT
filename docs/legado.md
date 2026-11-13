@@ -7,7 +7,7 @@ A listagem do legado lia `vagas` em ordem de ocupação e consultava `config.Dat
 | `vagas_list.php`                      | `/` com busca, filtro de situação e paginação         |
 | `vagas_edicao_*.php`                  | `/gestao` para cadastro, edição e exclusão            |
 | `config.Data_atualizacao`             | `publication.updated_at`, registro único com `id = 1` |
-| `pessoas`, grupos e permissões do PHP | Keycloak institucional, papel de client `pat-editor`  |
+| `pessoas`, grupos e permissões do PHP | Keycloak institucional, papel de client `operator`    |
 
 | Coluna de origem | Coluna de destino                |
 | ---------------- | -------------------------------- |

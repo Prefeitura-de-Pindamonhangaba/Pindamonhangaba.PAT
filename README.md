@@ -27,7 +27,7 @@ desenvolvimento do Next.js. Abra `/gestao` para testar com um banco local.
 
 No Keycloak, use o realm `pindamonhangaba` e configure um client OIDC confidencial exclusivo para o PAT, com Standard Flow e PKCE S256. Desabilite Direct Access Grants. Cadastre a URL de retorno `<APP_URL>/auth/retorno` e a URL pós-logout `<APP_URL>/` com a origem exata do ambiente.
 
-Crie o papel de client `pat-editor` e atribua-o à equipe autorizada. Configure um mapper **User Client Role** para o próprio client, com a claim multivalorada `pat_roles` no **ID token**. As sessões locais expiram no vencimento do ID token ou em até oito horas. Para acesso continuado, entre novamente.
+Crie o papel de client `operator` e atribua-o à equipe autorizada. Configure um mapper **User Client Role** para o próprio client, com a claim multivalorada `resource_access.<client-id>.roles` no **ID token**. As sessões locais expiram no vencimento do ID token ou em até oito horas. Para acesso continuado, entre novamente.
 
 Defina `KEYCLOAK_ENABLED=true`, `KEYCLOAK_CLIENT_ID` e `KEYCLOAK_CLIENT_SECRET` no ambiente. Com a integração desligada, apenas a consulta pública fica disponível.
 

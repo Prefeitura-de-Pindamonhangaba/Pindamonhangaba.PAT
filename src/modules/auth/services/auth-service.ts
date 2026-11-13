@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getEnv } from "@/shared/lib/env";
 import * as sessions from "../repositories/session-repository";
 
-const ADMIN_ROLE = "pat-editor";
+const MANAGEMENT_ROLE = "operator";
 let configuration: Promise<oidc.Configuration> | undefined;
 
 function provider() {
@@ -63,7 +63,9 @@ export async function startLogin() {
 }
 
 function digest(token: string) {
-  return createHash("sha256").update(token).digest("hex");
+  return createHash("sha256")
+    .update(MANAGEMENT_ROLE + ":" + token)
+    .digest("hex");
 }
 
 export async function finishLogin(
@@ -81,8 +83,18 @@ export async function finishLogin(
     },
   );
   const claims = tokens.claims();
-  const roles = z.array(z.string()).safeParse(claims?.pat_roles);
-  if (!claims?.sub || !roles.success || !roles.data.includes(ADMIN_ROLE))
+  const clientId = getEnv().KEYCLOAK_CLIENT_ID;
+  const access = z
+    .record(z.string(), z.unknown())
+    .safeParse(claims?.resource_access);
+  const client = z
+    .object({ roles: z.array(z.string()) })
+    .safeParse(clientId && access.success ? access.data[clientId] : undefined);
+  if (
+    !claims?.sub ||
+    !client.success ||
+    !client.data.roles.includes(MANAGEMENT_ROLE)
+  )
     return null;
   const expiresAt = new Date(
     Math.min(claims.exp * 1000, Date.now() + 8 * 60 * 60 * 1000),
