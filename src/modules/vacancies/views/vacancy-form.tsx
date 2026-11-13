@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { Toast } from "@/shared/components/toast";
 import type { Vacancy } from "../models/vacancy-schema";
 
 type FormAction = (previous: string, data: FormData) => Promise<string>;
@@ -98,10 +99,8 @@ export function VacancyForm({
           />{" "}
           Vaga preenchida
         </label>
-        {saveError && (
-          <p className="notice wide" role="alert">
-            {saveError}
-          </p>
+        {!saving && saveError && (
+          <Toast key={saveError} message={saveError} inDialog />
         )}
         <div className="actions wide">
           <button disabled={saving}>
@@ -126,7 +125,9 @@ export function VacancyForm({
               <input name="confirm" type="checkbox" required /> Confirmo a
               exclusão desta vaga.
             </label>
-            {deleteError && <p role="alert">{deleteError}</p>}
+            {!deleting && deleteError && (
+              <Toast key={deleteError} message={deleteError} inDialog />
+            )}
             <button className="danger" disabled={deleting}>
               Excluir definitivamente
             </button>

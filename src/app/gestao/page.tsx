@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Toast } from "@/shared/components/toast";
 import { redirect, notFound } from "next/navigation";
 import { devAuthBypassEnabled, managementEnabled } from "@/shared/lib/env";
 import { managementPage } from "@/modules/vacancies/controllers/vacancy-controller";
@@ -48,11 +49,7 @@ export default async function Management({
           </form>
         )}
       </div>
-      {message && (
-        <p className="notice" role="status">
-          {message}
-        </p>
-      )}
+      {message && <Toast key={message} message={message} kind="success" />}
       {data.missing && (
         <p className="notice" role="alert">
           Vaga não encontrada. <Link href={listHref}>Voltar à gestão</Link>

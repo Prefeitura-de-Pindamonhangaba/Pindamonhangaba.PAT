@@ -1,4 +1,5 @@
 import { managementEnabled } from "@/shared/lib/env";
+import { Toast } from "@/shared/components/toast";
 import { publicVacancies } from "@/modules/vacancies/controllers/vacancy-controller";
 import { PublicationDate } from "@/modules/vacancies/views/publication-date";
 import { VacancyList } from "@/modules/vacancies/views/vacancy-list";
@@ -32,16 +33,16 @@ export default async function Home({
           )}
         </section>
         {query.acesso === "indisponivel" && (
-          <p className="notice" role="alert">
-            O acesso institucional não pôde ser concluído. Verifique sua
-            permissão e tente novamente.
-          </p>
+          <Toast
+            key="login"
+            message="O acesso institucional não pôde ser concluído. Verifique sua permissão e tente novamente."
+          />
         )}
         {query.acesso === "saida" && (
-          <p className="notice" role="alert">
-            A sessão do navegador foi encerrada. Não foi possível confirmar a
-            saída no Keycloak.
-          </p>
+          <Toast
+            key="logout"
+            message="A sessão do navegador foi encerrada. Não foi possível confirmar a saída no Keycloak."
+          />
         )}
         <PublicationDate date={data.updatedAt} />
         <VacancyList {...data} />

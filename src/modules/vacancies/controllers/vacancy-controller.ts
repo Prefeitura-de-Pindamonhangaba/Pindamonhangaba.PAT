@@ -73,15 +73,16 @@ export async function remove(form: FormData) {
   if (!id.success || form.get("confirm") !== "on")
     return "Confirme a exclusão para continuar.";
   try {
-    if (await service.deleteVacancy(id.data)) {
-      console.info(
-        JSON.stringify({
-          event: "vacancy.deleted",
-          subject: editor.subject,
-          vacancyId: id.data,
-        }),
-      );
+    if (!(await service.deleteVacancy(id.data))) {
+      return "Esta vaga já foi excluída. Feche o formulário e atualize a lista.";
     }
+    console.info(
+      JSON.stringify({
+        event: "vacancy.deleted",
+        subject: editor.subject,
+        vacancyId: id.data,
+      }),
+    );
   } catch {
     console.error("Falha ao excluir vaga.");
     return "Não foi possível excluir a vaga. Tente novamente.";
