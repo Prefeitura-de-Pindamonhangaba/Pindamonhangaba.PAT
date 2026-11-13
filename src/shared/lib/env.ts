@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const ISSUER = "https://sso.pindamonhangaba.sp.gov.br/realms/Pindamonhangaba";
+const ISSUER = "https://sso.pindamonhangaba.sp.gov.br/realms/pindamonhangaba";
 const LOOPBACK = ["localhost", "127.0.0.1", "[::1]"];
 const schema = z
   .object({

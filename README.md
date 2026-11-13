@@ -25,7 +25,7 @@ com `APP_URL` e `DATABASE_URL` em loopback e execute
 `bun run dev --hostname 127.0.0.1`. A flag só tem efeito no modo de
 desenvolvimento do Next.js. Abra `/gestao` para testar com um banco local.
 
-No Keycloak, use o realm `Pindamonhangaba` e configure um client OIDC confidencial exclusivo para o PAT, com Standard Flow e PKCE S256. Desabilite Direct Access Grants. Cadastre a URL de retorno `<APP_URL>/auth/retorno` e a URL pós-logout `<APP_URL>/` com a origem exata do ambiente.
+No Keycloak, use o realm `pindamonhangaba` e configure um client OIDC confidencial exclusivo para o PAT, com Standard Flow e PKCE S256. Desabilite Direct Access Grants. Cadastre a URL de retorno `<APP_URL>/auth/retorno` e a URL pós-logout `<APP_URL>/` com a origem exata do ambiente.
 
 Crie o papel de client `pat-editor` e atribua-o à equipe autorizada. Configure um mapper **User Client Role** para o próprio client, com a claim multivalorada `pat_roles` no **ID token**. As sessões locais expiram no vencimento do ID token ou em até oito horas. Para acesso continuado, entre novamente.
 
