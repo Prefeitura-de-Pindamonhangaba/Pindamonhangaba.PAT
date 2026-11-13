@@ -22,4 +22,4 @@ A listagem do legado lia `vagas` em ordem de ocupação e consultava `config.Dat
 
 Antes de importar, obtenha uma exportação autorizada de `vagas` e do registro de atualização. Confirme os valores efetivos de `preenchida` e o fuso dos horários de origem. Revise valores nulos, quantidades e comprimentos antes de preparar a carga. Execute a carga em um banco isolado e compare as contagens, os filtros e uma amostra dos registros antes de publicar.
 
-A carga histórica ainda precisa ser executada. As telas auxiliares de importação, exportação e impressão do gerador PHP ficaram fora desta versão. O fluxo de contas passa pelo Keycloak.
+A migração `0002_seed_legacy_vacancies.sql` importa as 17 vagas do CSV fornecido. Os UUIDs preservam o identificador legado nos últimos 12 dígitos. Campos de situação vazios ou nulos foram mapeados para vagas disponíveis, e os horários históricos foram interpretados em America/Sao_Paulo. As telas auxiliares de importação, exportação e impressão do gerador PHP ficaram fora desta versão. O fluxo de contas passa pelo Keycloak.

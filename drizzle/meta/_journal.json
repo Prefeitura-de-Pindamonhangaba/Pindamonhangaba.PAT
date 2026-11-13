@@ -15,6 +15,13 @@
       "when": 1794493799879,
       "tag": "0001_track_vacancy_changes",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794601285125,
+      "tag": "0002_seed_legacy_vacancies",
+      "breakpoints": true
     }
   ]
 }
