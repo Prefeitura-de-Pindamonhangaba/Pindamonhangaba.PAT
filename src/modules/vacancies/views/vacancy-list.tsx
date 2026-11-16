@@ -33,6 +33,27 @@ export function VacancyList({
       })
     );
   }
+  function editLink(row: Vacancy) {
+    return (
+      <Link
+        className="button secondary"
+        scroll={false}
+        href={pageUrl(filters.page, { editar: row.id })}
+        aria-label={"Editar " + row.occupation}
+      >
+        Editar
+      </Link>
+    );
+  }
+
+  function statusBadge(row: Vacancy) {
+    return (
+      <span className={row.filled ? "status" : "status open"}>
+        {row.filled ? "Preenchida" : "Disponível"}
+      </span>
+    );
+  }
+
   return (
     <section aria-labelledby="vagas-titulo">
       <div className="list-heading">
@@ -75,60 +96,76 @@ export function VacancyList({
           A lista está temporariamente indisponível. Tente novamente mais tarde.
         </p>
       ) : rows.length ? (
-        <div
-          className="table-wrap"
-          tabIndex={0}
-          role="region"
-          aria-label="Tabela de vagas"
-        >
-          <table>
-            <thead>
-              <tr>
-                {[
-                  "Ocupação",
-                  "Vagas",
-                  "Escolaridade",
-                  "Experiência",
-                  "Observações",
-                  "Situação",
-                ].map((label) => (
-                  <th key={label} scope="col">
-                    {label}
-                  </th>
-                ))}
-                {management && <th scope="col">Ações</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.id}>
-                  <th scope="row">{row.occupation}</th>
-                  <td>{row.openings}</td>
-                  <td>{row.education || "—"}</td>
-                  <td>{row.experience || "—"}</td>
-                  <td>{row.notes || "—"}</td>
-                  <td>
-                    <span className={row.filled ? "status" : "status open"}>
-                      {row.filled ? "Preenchida" : "Disponível"}
-                    </span>
-                  </td>
-                  {management && (
-                    <td>
-                      <Link
-                        className="button secondary"
-                        scroll={false}
-                        href={pageUrl(filters.page, { editar: row.id })}
-                        aria-label={"Editar " + row.occupation}
-                      >
-                        Editar
-                      </Link>
-                    </td>
+        <>
+          <ul className="vacancy-cards" role="list">
+            {rows.map((row) => (
+              <li key={row.id} className="vacancy-card">
+                <h3>{row.occupation}</h3>
+                <div className="vacancy-card-summary">
+                  <strong>
+                    {row.openings} {row.openings === 1 ? "vaga" : "vagas"}
+                  </strong>
+                  {statusBadge(row)}
+                </div>
+                <dl>
+                  {[
+                    ["Escolaridade", row.education],
+                    ["Experiência", row.experience],
+                    ["Observações", row.notes],
+                  ].map(
+                    ([label, value]) =>
+                      value && (
+                        <div key={label}>
+                          <dt>{label}</dt>
+                          <dd>{value}</dd>
+                        </div>
+                      ),
                   )}
+                </dl>
+                {management && editLink(row)}
+              </li>
+            ))}
+          </ul>
+          <div
+            className="table-wrap"
+            tabIndex={0}
+            role="region"
+            aria-label="Tabela de vagas"
+          >
+            <table>
+              <thead>
+                <tr>
+                  {[
+                    "Ocupação",
+                    "Vagas",
+                    "Escolaridade",
+                    "Experiência",
+                    "Observações",
+                    "Situação",
+                  ].map((label) => (
+                    <th key={label} scope="col">
+                      {label}
+                    </th>
+                  ))}
+                  {management && <th scope="col">Ações</th>}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.id}>
+                    <th scope="row">{row.occupation}</th>
+                    <td>{row.openings}</td>
+                    <td>{row.education || "—"}</td>
+                    <td>{row.experience || "—"}</td>
+                    <td>{row.notes || "—"}</td>
+                    <td>{statusBadge(row)}</td>
+                    {management && <td>{editLink(row)}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       ) : (
         <p className="notice">Nenhuma vaga encontrada.</p>
       )}
