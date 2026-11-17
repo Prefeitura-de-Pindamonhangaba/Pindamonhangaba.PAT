@@ -215,6 +215,13 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
+tbody th {
+  width: 24%;
+}
+tbody td:nth-child(5) {
+  width: 25%;
+  white-space: pre-line;
+}
 th,
 td {
   text-align: left;
@@ -266,6 +273,7 @@ tbody tr:last-child > * {
   gap: 0.5rem;
 }
 .check input {
+  flex-shrink: 0;
   width: 1.15rem;
   min-height: 1.15rem;
 }
@@ -355,9 +363,12 @@ footer {
 }
 .toast p {
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .toast button {
   margin: 0;
+  flex-shrink: 0;
 }
 .toast-inline {
   position: static;
@@ -375,7 +386,7 @@ footer {
   padding-inline: 0.75rem;
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 60rem) {
   .table-wrap {
     display: none;
   }
@@ -469,5 +480,28 @@ footer {
   }
   .toast:not(.toast-inline) {
     bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 22rem) {
+  .masthead-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 0.75rem;
+  }
+  .masthead-inner .brand,
+  .institutional-department {
+    flex: none;
+  }
+  .institutional-department {
+    text-align: left;
+  }
+  .filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .toast {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
