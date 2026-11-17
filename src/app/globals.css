@@ -214,15 +214,27 @@ button:disabled {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 50rem;
-  overflow-wrap: anywhere;
 }
 th,
 td {
   text-align: left;
-  padding: 0.85rem;
+  padding: 0.75rem clamp(0.5rem, 1vw, 0.85rem);
   vertical-align: top;
   border-bottom: 1px solid var(--color-border-light);
+}
+thead th {
+  white-space: nowrap;
+}
+tbody th,
+tbody td {
+  overflow-wrap: anywhere;
+}
+tr > :nth-child(2) {
+  text-align: center;
+  white-space: nowrap;
+}
+td .button {
+  white-space: nowrap;
 }
 thead {
   background: var(--color-surface-info);
